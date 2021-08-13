@@ -4,6 +4,7 @@ const ArticlesController = require("../controllers/list-controller");
 const router = new Router();
 
 router.get("/articles", ArticlesController.getArticles);
+router.get("/articles/archive", ArticlesController.getArchive);
 router.get("/articles/edit/:id", ArticlesController.getArticleOnID);
 
 router.post("/articles/edit/:id", ArticlesController.editArticle)

@@ -6,7 +6,7 @@ class ArticlesController {
             const articlesToStore = await ArticleServices.getArticlesServ();
             return res.json(articlesToStore)
         } catch(e) {
-            console.log(e);
+            next(e);
         }
     };
 
@@ -18,7 +18,7 @@ class ArticlesController {
             return res.json(articleFromDb);
             
         } catch(e) {
-            console.log(e);
+            next(e);
         }
     };
 
@@ -30,7 +30,7 @@ class ArticlesController {
 
             return res.json(newArticles);            
         } catch(e) {
-            console.log(e);
+            next(e);
         }
     };
 
@@ -40,7 +40,7 @@ class ArticlesController {
             const articleAdd = await ArticleServices.addArticleServ(title, content, isActive);
             return res.json(articleAdd) 
         } catch(e) {
-            console.log(e);
+            next(e);
         }
     };
 
@@ -52,9 +52,18 @@ class ArticlesController {
             return res.json(newArticles)
             
         } catch(e) {
-            console.log(e);
+            next(e);
         }
     };
+
+    async getArchive(req, res, next){
+        try{
+            const articlesToStore = await ArticleServices.getArchiveServ();
+            return res.json(articlesToStore)
+        } catch(e){
+            next(e);
+        }
+    }
 }
 
 module.exports = new ArticlesController();
