@@ -2,3 +2,7 @@
 /backend/node-modules
 /backend/node_modules
 /backend/.env
+/frontend/blog/node-modules
+/frontend/blog/package-lock.json
+/frontend/blog/.env
+/.vscode
