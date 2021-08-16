@@ -6,3 +6,4 @@
 /frontend/blog/package-lock.json
 /frontend/blog/.env
 /.vscode
+node_modules/

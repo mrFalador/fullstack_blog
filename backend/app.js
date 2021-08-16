@@ -1,10 +1,15 @@
 const exprress = require("express");
+const cors = require("cors");
 const router = require("./routes/index");
 const errorMiddleware = require("./middlewares/errors-middleware");
 
 require("dotenv").config();
 const app = exprress();
 app.use(exprress.json());
+app.use(cors({
+    credentials:true,
+    origin: process.env.CLIENT_URL
+}))
 app.use("/api", router);
 app.use(errorMiddleware);
 
