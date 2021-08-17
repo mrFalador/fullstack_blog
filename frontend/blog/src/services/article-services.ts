@@ -10,4 +10,8 @@ export default class ArticlesService{
     static async getArchive():Promise<AxiosResponse<ArticleResponse[]>>{
         return $api.get<ArticleResponse[]>('/articles/archive')
     }
+
+    static async addArticle(title: string, content: string, isActive: boolean):Promise<AxiosResponse<ArticleResponse>>{
+        return $api.post<ArticleResponse>('/articles/add', {title, content, isActive})
+    }
 }
