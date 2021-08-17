@@ -6,6 +6,8 @@ import ArticlesService from "../services/article-services";
 export default class Store {
     articles = {} as ArticleResponse;
     isWrite = false
+    oneArticle = -1
+
 
 
     constructor(){
@@ -14,6 +16,10 @@ export default class Store {
 
     setArticles( article: ArticleResponse){
         this.articles = article;
+    }
+
+    setOneArticle(id : number){
+        this.oneArticle = id;
     }
 
     setWrite(bool:boolean){
@@ -29,4 +35,5 @@ export default class Store {
             console.log(e.response?.data?.message);
         }
     }
+
 }

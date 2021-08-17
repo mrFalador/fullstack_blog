@@ -11,6 +11,10 @@ export default class ArticlesService{
         return $api.get<ArticleResponse[]>('/articles/archive')
     }
 
+    static async getArticleOnID(id : number):Promise<AxiosResponse<ArticleResponse[]>>{
+        return $api.get<ArticleResponse[]>(`/articles/edit/${id}`)
+    }
+
     static async addArticle(title: string, content: string, isActive: boolean):Promise<AxiosResponse<ArticleResponse>>{
         return $api.post<ArticleResponse>('/articles/add', {title, content, isActive})
     }

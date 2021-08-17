@@ -1,4 +1,4 @@
-import React, { FC, PureComponent, useState, useContext } from "react";
+import React, { FC, useState, useContext } from "react";
 import { Editor, OriginalTools } from "react-bootstrap-editor";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";

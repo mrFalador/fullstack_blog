@@ -1,5 +1,5 @@
 export interface ArticleResponse{
-    id?: number;
+    id: number;
     title: string;
     content: string;
     isActive: boolean;

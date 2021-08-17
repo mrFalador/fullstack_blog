@@ -22,6 +22,14 @@ const App: FC = () => {
     setArticles(response.data);
   }
 
+  async function getArticleOnId(id:number){
+    const response = await ArticlesService.getArticleOnID(id);
+    console.log(response.data)
+  }
+
+  
+  
+
   if (store.isWrite) {
     return(
       <div>
@@ -54,7 +62,7 @@ const App: FC = () => {
         {articles.map((article) => (
           <Row key={article.id} xs={1} md={1} lg={1}>
             <Col>
-              <h5 className="text-info">{article.title}</h5>
+              <Col onClick={() => getArticleOnId(article.id)}><h5 className="text-info">{article.title}</h5></Col>
             </Col>
             <Col>
               <p>{article.content}</p>
