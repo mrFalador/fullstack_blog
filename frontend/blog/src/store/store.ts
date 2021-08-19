@@ -1,39 +1,80 @@
 import { ArticleResponse } from "../models/response/ArticleResponse";
+import { IArticle } from "../models/IArticle";
 import { makeAutoObservable } from "mobx";
 import ArticlesService from "../services/article-services";
 
-
 export default class Store {
-    articles = {} as ArticleResponse;
-    isWrite = false
-    oneArticle = -1
+  articles = {} as ArticleResponse;
+  isWrite = false;
+  isEdit = false;
+  articleID = 0;
+  oneArticle = {
+    id: 0,
+    title: "Nan",
+    content: "Nan",
+    isActive: false,
+  } as IArticle;
+  seeArticle = false;
 
+  constructor() {
+    makeAutoObservable(this);
+  }
 
+  setArticles(article: ArticleResponse) {
+    this.articles = article;
+  }
 
-    constructor(){
-        makeAutoObservable(this);
+  setOneArticle(article: ArticleResponse) {
+    this.oneArticle = article;
+  }
+
+  setWrite(bool: boolean) {
+    this.isWrite = bool;
+  }
+
+  setEdit(bool: boolean) {
+    this.isEdit = bool;
+  }
+
+  seeOneArticle(bool: boolean) {
+    this.seeArticle = bool;
+  }
+
+  setID(id: number) {
+    this.articleID = id;
+  }
+
+  async addArticle(title: string, content: string, isActive: boolean) {
+    try {
+      const response = await ArticlesService.addArticle(
+        title,
+        content,
+        isActive
+      );
+      this.setArticles(response.data);
+      this.setWrite(false);
+    } catch (e) {
+      console.log(e.response?.data?.message);
     }
+  }
 
-    setArticles( article: ArticleResponse){
-        this.articles = article;
+  async editArticle(
+    id: number,
+    title: string,
+    content: string,
+    isActive: boolean
+  ) {
+    try {
+      const response = await ArticlesService.editArticle(
+        id,
+        title,
+        content,
+        isActive
+      );
+      this.setArticles(response.data);
+      this.setWrite(false);
+    } catch (e) {
+      console.log(e.response?.data?.message);
     }
-
-    setOneArticle(id : number){
-        this.oneArticle = id;
-    }
-
-    setWrite(bool:boolean){
-        this.isWrite = bool
-    }
-
-    async addArticle(title: string, content: string, isActive: boolean){
-        try {
-            const response = await ArticlesService.addArticle(title, content, isActive);
-            this.setArticles(response.data);
-            this.setWrite(false)
-        } catch(e) {
-            console.log(e.response?.data?.message);
-        }
-    }
-
+  }
 }

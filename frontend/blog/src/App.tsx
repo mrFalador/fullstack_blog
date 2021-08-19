@@ -2,15 +2,18 @@ import React, { FC, useContext, useState } from "react";
 import ArticlesService from "./services/article-services";
 import { ArticleResponse } from "./models/response/ArticleResponse";
 import { Context } from "./index";
-import { Nav, Container, Row, Col } from "react-bootstrap";
+import { Nav, Container, Row, Col, Button } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
-import  PostEdit  from "./components/TextEditor";
+import PostEdit from "./components/TextEditor";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./style.css";
+import { IArticle } from "./models/IArticle";
 
 const App: FC = () => {
   const { store } = useContext(Context);
   const [articles, setArticles] = useState<ArticleResponse[]>([]);
+  const [oneArticle, setOneArticle] = useState<IArticle>();
 
   async function getArticles() {
     const response = await ArticlesService.getArticles();
@@ -22,20 +25,106 @@ const App: FC = () => {
     setArticles(response.data);
   }
 
-  async function getArticleOnId(id:number){
+  async function getArticleOnId(id: number) {
     const response = await ArticlesService.getArticleOnID(id);
-    console.log(response.data)
+    setOneArticle(response.data);
   }
 
-  
-  
+  async function deleteArtcleOnId(id: number) {
+    await ArticlesService.deleteArticle(id);
+  }
+
+  if (store.seeArticle) {
+    const id = oneArticle?.id || 0;
+    return (
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col>
+            <h1 className="center">Articles listing</h1>
+            <h5 className="center">Article Detalis</h5>
+          </Col>
+          <Col></Col>
+        </Row>
+        <Row key={id}>
+          <Col></Col>
+          <Col xs={8}>
+            <div className="border-bottom">
+              <h5 className="text-info center">{oneArticle?.title}</h5>
+              <p>{oneArticle?.content}</p>
+              <p>{oneArticle?.createdAt}</p>
+            </div>
+          </Col>
+          <Col></Col>
+        </Row>
+        <Row>
+          <Col></Col>
+          <Col xs={8}>
+            <p />
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => {
+                let id = oneArticle ? oneArticle.id - 1 : NaN;
+                getArticleOnId(id);
+              }}
+            >
+              PREV
+            </Button>
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => store.seeOneArticle(false)}
+            >
+              EXIT
+            </Button>
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => {
+                let id = oneArticle ? oneArticle.id + 1 : NaN;
+                getArticleOnId(id);
+              }}
+            >
+              NEXT
+            </Button>
+          </Col>
+          <Col>
+            <p />
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => {
+                store.setID(oneArticle?.id || NaN);
+                store.setWrite(true);
+                store.seeOneArticle(false);
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => {
+                deleteArtcleOnId(oneArticle?.id || NaN);
+                getArticles();
+                store.seeOneArticle(false);
+              }}
+            >
+              Delete
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 
   if (store.isWrite) {
-    return(
+    return (
       <div>
-        <PostEdit/>
+        <PostEdit />
       </div>
-    )
+    );
   }
 
   return (
@@ -60,12 +149,20 @@ const App: FC = () => {
           <Col></Col>
         </Row>
         {articles.map((article) => (
-          <Row key={article.id} xs={1} md={1} lg={1}>
+          <Row className="border-bottom" key={article.id} xs={8} md={1} lg={1}>
             <Col>
-              <Col onClick={() => getArticleOnId(article.id)}><h5 className="text-info">{article.title}</h5></Col>
+              <Col
+                onClick={() => {
+                  getArticleOnId(article.id);
+                  store.seeOneArticle(true);
+                }}
+              >
+                <h5 className="text-info">{article.title}</h5>
+              </Col>
             </Col>
             <Col>
               <p>{article.content}</p>
+              <p className="text-muted">{article.createdAt}</p>
             </Col>
           </Row>
         ))}
