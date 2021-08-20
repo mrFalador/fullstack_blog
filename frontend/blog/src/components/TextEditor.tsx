@@ -13,13 +13,116 @@ const PostEdit: FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const { store } = useContext(Context);
   const articleID = store.articleID;
+  let English = true;
+  let German = false;
+  let Bulgarian = false;
+
+  function setLang(str: string) {
+    switch (str) {
+      case "english":
+        English = true;
+        German = false;
+        Bulgarian = false;
+        break;
+      case "german":
+        English = false;
+        German = true;
+        Bulgarian = false;
+        break;
+      case "bulgarian":
+        English = false;
+        German = false;
+        Bulgarian = true;
+        break;
+    }
+  }
+
+  function submitArticle(
+    articleID: number,
+    title: string,
+    content: string,
+    isActive: boolean
+  ) {
+    if (articleID !== 0) {
+      store.editArticle(articleID, title, content, isActive);
+    } else {
+      store.addArticle(title, content, isActive);
+    }
+  }
 
   return (
     <div className="container">
       <div className="row">
         <div className="col"></div>
-        <div className="col">
+        <div className="col-6">
           <h1 className="center">Add Article</h1>
+          <ul className="nav nav-tabs" id="myTab" role="tablist">
+            <li className="nav-item" role="presentation">
+              <button
+                onClick={() => setLang("german")}
+                className={English ? "nav-link active" : "nav-link"}
+                id="home-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#home"
+                type="button"
+                role="tab"
+                aria-controls="home"
+                aria-selected={English ? "true" : "false"}
+              >
+                English
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                onClick={() => setLang("german")}
+                className={German ? "nav-link active" : "nav-link"}
+                id="profile-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#profile"
+                type="button"
+                role="tab"
+                aria-controls="profile"
+                aria-selected={German ? "true" : "false"}
+              >
+                German
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                onClick={() => setLang("german")}
+                className={Bulgarian ? "nav-link active" : "nav-link"}
+                id="contact-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#contact"
+                type="button"
+                role="tab"
+                aria-controls="contact"
+                aria-selected={Bulgarian ? "true" : "false"}
+              >
+                Bulgarian
+              </button>
+            </li>
+          </ul>
+          <div className="tab-content" id="myTabContent">
+            <div
+              className="tab-pane fade show active"
+              id="home"
+              role="tabpanel"
+              aria-labelledby="home-tab"
+            ></div>
+            <div
+              className="tab-pane fade"
+              id="profile"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            ></div>
+            <div
+              className="tab-pane fade"
+              id="contact"
+              role="tabpanel"
+              aria-labelledby="contact-tab"
+            ></div>
+          </div>
         </div>
         <div className="col"></div>
       </div>
@@ -57,13 +160,7 @@ const PostEdit: FC = () => {
             <label className="form-check-label">is Active</label>
           </div>
           <button
-            onClick={() => {
-              if (articleID !== 0) {
-                store.editArticle(articleID, title, content, isActive);
-              } else {
-                store.addArticle(title, content, isActive);
-              }
-            }}
+            onClick={() => submitArticle(articleID, title, content, isActive)}
             type="button"
             className="btn btn-outline-dark"
           >

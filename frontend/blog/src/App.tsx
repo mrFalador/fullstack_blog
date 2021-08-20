@@ -1,21 +1,33 @@
-import React, { FC, useContext, useState } from "react";
-import ArticlesService from "./services/article-services";
-import { ArticleResponse } from "./models/response/ArticleResponse";
-import { Context } from "./index";
+import React, { FC, useContext, useState, Component } from "react";
+
+import {
+  Route,
+  Switch,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+
 import { Nav, Container, Row, Col, Button } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
+import { Context } from "./index";
+import Articles from "./pages/articles";
+import Article from "./pages/article";
+import formAddEdit from "./pages/formAddEdit";
+import ArticlesService from "./services/article-services";
+import { ArticleResponse, IArticle } from "./types/index";
 import PostEdit from "./components/TextEditor";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
-import { IArticle } from "./models/IArticle";
 
-const App: FC = () => {
-  const { store } = useContext(Context);
+class App extends Component {
+  render(){
+  /*const { store } = useContext(Context);
   const [articles, setArticles] = useState<ArticleResponse[]>([]);
-  const [oneArticle, setOneArticle] = useState<IArticle>();
+  const [oneArticle, setOneArticle] = useState<IArticle>();*/
+  //const { history  } = this.props;
 
-  async function getArticles() {
+ /* async function getArticles() {
     const response = await ArticlesService.getArticles();
     setArticles(response.data);
   }
@@ -32,9 +44,9 @@ const App: FC = () => {
 
   async function deleteArtcleOnId(id: number) {
     await ArticlesService.deleteArticle(id);
-  }
+  }*/
 
-  if (store.seeArticle) {
+  /*if (store.seeArticle) {
     const id = oneArticle?.id || 0;
     return (
       <Container>
@@ -125,22 +137,37 @@ const App: FC = () => {
         <PostEdit />
       </div>
     );
-  }
+  }*/
 
   return (
-    <div>
-      <Nav defaultActiveKey="/home" as="ul">
-        <Nav.Item as="li">
-          <Nav.Link onClick={getArticles}>Articles</Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li">
-          <Nav.Link onClick={getArchive}>Archive</Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li">
-          <Nav.Link onClick={() => store.setWrite(true)}>Add</Nav.Link>
-        </Nav.Item>
-      </Nav>
+    <div className = "App">
+      <Switch>
+        <Route /*history = {history}*/ path = "/articles" component = {Articles} />
+        <Route /*history = {history}*/ path = "/articles/archive" component = {Articles} />
+        <Route /*history = {history}*/ path = "/articles/:id" component = {Article} />
+      </Switch>
+    </div>
+
+    /*<div>
       <Container>
+        <Row>
+          <Col>
+            <Nav defaultActiveKey="/home" as="ul">
+              <Nav.Item as="li">
+                <Nav.Link onClick={getArticles}>Articles</Nav.Link>
+              </Nav.Item>
+              <Nav.Item as="li">
+                <Nav.Link onClick={getArchive}>Archive</Nav.Link>
+              </Nav.Item>
+              <Nav.Item as="li">
+                <Nav.Link onClick={() => store.setWrite(true)}>Add</Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Col>
+          <Col></Col>
+          <Col>
+          </Col>
+        </Row>
         <Row>
           <Col></Col>
           <Col>
@@ -157,6 +184,7 @@ const App: FC = () => {
                   store.seeOneArticle(true);
                 }}
               >
+                <p />
                 <h5 className="text-info">{article.title}</h5>
               </Col>
             </Col>
@@ -167,7 +195,8 @@ const App: FC = () => {
           </Row>
         ))}
       </Container>
-    </div>
+    </div>*/
   );
 };
-export default observer(App);
+}
+export default withRouter(App);
