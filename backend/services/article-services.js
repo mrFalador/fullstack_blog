@@ -7,59 +7,47 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   { dialect: "postgres" }
 );
-const articleModel = require("../models/articles")(sequelize, Sequelize.DataTypes);
+const articleModel = require("../models/articles")(
+  sequelize,
+  Sequelize.DataTypes
+);
 
-class ArticleServices{
-    async addArticleServ(title, content, isActive){
-        try{
-        const newArticle = articleModel.build({ title:title, content:content, isActive:isActive});
-        await newArticle.save();
-        return newArticle
-        } catch(e) {
-            console.log(e);
-        }
-    };
+class ArticleServices {
+  async addArticleServ(title, content, isActive) {
+    try {
+      const newArticle = articleModel.build({ title, content, isActive });
+      await newArticle.save();
+      return newArticle;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
-    async getArticlesServ(){
-        const bdArticles = await articleModel.findAll({ where: { isActive: true } });
-        return bdArticles
-    };
+  getArticlesServ = async () => articleModel.findAll({where: { isActive: true }});
 
-    async deleteArticleServ(id){
-        await articleModel.destroy({ where: { id: id }});
-        const bdArticles = await articleModel.findAll({ where: { isActive: true } });
-        return bdArticles
-    };
+  deleteArticleServ = async (id) => await articleModel.destroy({ where: { id: id } });
 
-    async findArticle(id){
-        const articleFromDb = await articleModel.findOne({where: { id: id }})
-        if (!articleFromDb){
-            throw ApiErrors.notFound("Article not found")
-        }
-        return articleFromDb
-    };
+  findArticle = async (id) => await articleModel.findOne({ where: { id: id } });
 
-    async editArticleServ(id, title, content, isActive){
-        let articleFromDb = await articleModel.findOne({ where: { id: id }});
-        if (!articleFromDb){
-            throw ApiErrors.notFound("Article not found")
-        }
-        articleFromDb.title = title;
-        articleFromDb.content = content;
-        articleFromDb.isActive = isActive;
-        await articleFromDb.save();
-        const bdArticles = await articleModel.findAll({ where: { isActive: true } });
-        return bdArticles
-    };
+  getArchiveServ = async () => articleModel.findAll({where: { isActive: false }});
 
-    async getArchiveServ(){
-        const bdArticles = await articleModel.findAll({ where: { isActive: false } });
-        if (!bdArticles){
-            throw ApiErrors("Archive empty")
-        }
-        return bdArticles
-    };
+  async editArticleServ(id, title, content, isActive) {
+    let articleFromDb = await articleModel.findOne({ where: { id: id } });
+    if (!articleFromDb) {
+      throw ApiErrors.notFound("Article not found");
+    }
+    articleFromDb.title = title;
+    articleFromDb.content = content;
+    articleFromDb.isActive = isActive;
+    await articleFromDb.save();
+    const bdArticles = await articleModel.findAll({
+      where: { isActive: true },
+    });
+    return bdArticles;
+  }
+
+
 
 }
 
-module.exports = new ArticleServices ();
+module.exports = new ArticleServices();
