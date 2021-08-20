@@ -23,13 +23,16 @@ class ArticleServices {
     }
   }
 
-  getArticlesServ = async () => articleModel.findAll({where: { isActive: true }});
+  getArticlesServ = async () =>
+    articleModel.findAll({ where: { isActive: true } });
 
-  deleteArticleServ = async (id) => await articleModel.destroy({ where: { id: id } });
+  deleteArticleServ = async (id) =>
+    await articleModel.destroy({ where: { id: id } });
 
   findArticle = async (id) => await articleModel.findOne({ where: { id: id } });
 
-  getArchiveServ = async () => articleModel.findAll({where: { isActive: false }});
+  getArchiveServ = async () =>
+    articleModel.findAll({ where: { isActive: false } });
 
   async editArticleServ(id, title, content, isActive) {
     let articleFromDb = await articleModel.findOne({ where: { id: id } });
@@ -45,9 +48,6 @@ class ArticleServices {
     });
     return bdArticles;
   }
-
-
-
 }
 
 module.exports = new ArticleServices();
