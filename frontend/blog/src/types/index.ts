@@ -13,3 +13,7 @@ export interface IArticle {
   isActive: boolean;
   createdAt: Date;
 }
+
+export interface Iid {
+  id: string;
+}

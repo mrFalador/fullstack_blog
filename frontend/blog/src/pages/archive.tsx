@@ -10,17 +10,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../style.css";
 
-const Articles: FC = () => {
+const Archive: FC = () => {
   const { store } = useContext(Context);
   const [articles, setArticles] = useState<ArticleResponse[]>([]);
+  const [oneArticle, setOneArticle] = useState<IArticle>();
 
-  async function getArticles() {
-    const response = await ArticlesService.getArticles();
+  async function getArchive() {
+    const response = await ArticlesService.getArchive();
     setArticles(response.data);
   }
 
   useEffect(() => {
-    getArticles();
+    getArchive();
   });
 
   return (
@@ -61,4 +62,4 @@ const Articles: FC = () => {
   );
 };
 
-export default observer(Articles);
+export default observer(Archive);

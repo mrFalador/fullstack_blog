@@ -23,8 +23,8 @@ export default class Store {
     this.articles = article;
   }
 
-  setOneArticle(article: ArticleResponse) {
-    this.oneArticle = article;
+  setOneArticle( num : number) {
+    this.oneArticle.id = num;
   }
 
   setWrite(bool: boolean) {

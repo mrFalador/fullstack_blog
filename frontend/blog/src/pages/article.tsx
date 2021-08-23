@@ -1,101 +1,89 @@
-import React, { FC, useState, useContext } from "react";
-import { Nav, Container, Row, Col, Button } from "react-bootstrap";
+import React, { FC, useState, useContext, useEffect } from "react";
+import {
+  Link,
+  useParams,
+} from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
 import ArticlesService from "../services/article-services";
-import { ArticleResponse, IArticle } from "../types/index";
+import { ArticleResponse, IArticle, Iid } from "../types/index";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../style.css";
 
 const Article: FC = () => {
-    const { store } = useContext(Context);
-    const [oneArticle, setOneArticle] = useState<IArticle>();
-    const [articles, setArticles] = useState<ArticleResponse[]>([]);
-    const id = oneArticle?.id || 0;
+  const { store } = useContext(Context);
+  const [oneArticle, setOneArticle] = useState<IArticle>();
+  const { id } = useParams<Iid>(); //oneArticle?.id || 0;
 
-    async function getArticleOnId(id: number) {
-        const response = await ArticlesService.getArticleOnID(id);
-        setOneArticle(response.data);
-      }
+  async function getArticleOnId(id: number) {
+    const response = await ArticlesService.getArticleOnID(id);
+    setOneArticle(response.data);
+  }
 
-    async function deleteArtcleOnId(id: number) {
-        await ArticlesService.deleteArticle(id);
-      }
+  async function deleteArtcleOnId(id: number) {
+    await ArticlesService.deleteArticle(id);
+  }
 
-    async function getArticles() {
-        const response = await ArticlesService.getArticles();
-        setArticles(response.data);
-      }
+  async function getArticles() {
+    const response = await ArticlesService.getArticles();
+  }
 
+  useEffect(() => {
+    getArticleOnId(Number(id));
+  });
 
-    return(
-        <Container>
-        <Row>
-          <Col></Col>
-          <Col>
-            <h1 className="center">Articles listing</h1>
-            <h5 className="center">Article Detalis</h5>
-          </Col>
-          <Col></Col>
-        </Row>
-        <Row key={id}>
-          <Col></Col>
-          <Col xs={8}>
-            <div className="border-bottom">
-              <h5 className="text-info center">{oneArticle?.title}</h5>
-              <p>{oneArticle?.content}</p>
-              <p>{oneArticle?.createdAt}</p>
-            </div>
-          </Col>
-          <Col></Col>
-        </Row>
-        <Row>
-          <Col></Col>
-          <Col xs={8}>
-            <p />
-            <Button
-              variant="outline-info"
-              size="sm"
-              onClick={() => {
-                let id = oneArticle ? oneArticle.id - 1 : NaN;
-                getArticleOnId(id);
-              }}
-            >
+  return (
+    <Container>
+      <Row>
+        <Col></Col>
+        <Col>
+          <h1 className="center">Articles listing</h1>
+          <h5 className="center">Article Detalis</h5>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row key={id}>
+        <Col></Col>
+        <Col xs={8}>
+          <div className="border-bottom">
+            <h5 className="text-info center">{oneArticle?.title}</h5>
+            <p>{oneArticle?.content}</p>
+            <p>{oneArticle?.createdAt}</p>
+          </div>
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col></Col>
+        <Col xs={8}>
+          <p />
+          <Link to={`./${Number(id) - 1}`}>
+            <Button variant="outline-info" size="sm">
               PREV
             </Button>
-            <Button
-              variant="outline-info"
-              size="sm"
-              onClick={() => store.seeOneArticle(false)}
-            >
+          </Link>
+          <Link to="/articles">
+            <Button variant="outline-info" size="sm">
               EXIT
             </Button>
-            <Button
-              variant="outline-info"
-              size="sm"
-              onClick={() => {
-                let id = oneArticle ? oneArticle.id + 1 : NaN;
-                getArticleOnId(id);
-              }}
-            >
+          </Link>
+          <Link to={`./${Number(id) + 1}`}>
+            <Button variant="outline-info" size="sm">
               NEXT
             </Button>
-          </Col>
-          <Col>
-            <p />
-            <Button
-              variant="outline-info"
-              size="sm"
-              onClick={() => {
-                store.setID(oneArticle?.id || NaN);
-                store.setWrite(true);
-                store.seeOneArticle(false);
-              }}
-            >
+          </Link>
+        </Col>
+        <Col>
+          <p />
+          <Link to={`/edit/${Number(id)}`}>
+            <Button variant="outline-info" size="sm">
               Edit
             </Button>
+          </Link>
+          <Link to="/articles">
             <Button
               variant="outline-info"
               size="sm"
@@ -107,10 +95,11 @@ const Article: FC = () => {
             >
               Delete
             </Button>
-          </Col>
-        </Row>
-      </Container>
-    )
-}
+          </Link>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
-export default Article;
+export default observer(Article);

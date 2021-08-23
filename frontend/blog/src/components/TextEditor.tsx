@@ -1,7 +1,9 @@
 import React, { FC, useState, useContext } from "react";
 import { Editor, OriginalTools } from "react-bootstrap-editor";
+import { Link, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
+import {Iid} from "../types/index"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -16,6 +18,7 @@ const PostEdit: FC = () => {
   let English = true;
   let German = false;
   let Bulgarian = false;
+  const { id }  = useParams<Iid>();
 
   function setLang(str: string) {
     switch (str) {
@@ -38,13 +41,13 @@ const PostEdit: FC = () => {
   }
 
   function submitArticle(
-    articleID: number,
+    id : string,
     title: string,
     content: string,
     isActive: boolean
   ) {
-    if (articleID !== 0) {
-      store.editArticle(articleID, title, content, isActive);
+    if (id) {
+      store.editArticle(Number(id), title, content, isActive);
     } else {
       store.addArticle(title, content, isActive);
     }
@@ -159,13 +162,16 @@ const PostEdit: FC = () => {
             />
             <label className="form-check-label">is Active</label>
           </div>
+          <Link to = {`/article/${Number(id)}`}>
           <button
-            onClick={() => submitArticle(articleID, title, content, isActive)}
+            onClick={() => submitArticle(id, title, content, isActive)}
             type="button"
             className="btn btn-outline-dark"
           >
             Submit
           </button>
+          </Link>
+          <Link to = "/articles">
           <button
             onClick={() => {
               store.setWrite(false);
@@ -175,6 +181,7 @@ const PostEdit: FC = () => {
           >
             Back
           </button>
+          </Link>
         </div>
         <div className="col"></div>
       </div>
