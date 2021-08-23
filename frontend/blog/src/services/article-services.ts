@@ -1,7 +1,6 @@
-import $api from "../http";
 import { AxiosResponse } from "axios";
-import { ArticleResponse } from "../models/response/ArticleResponse";
-import { IArticle } from "../models/IArticle";
+import $api from "../http";
+import { ArticleResponse, IArticle } from "../types/index";
 
 export default class ArticlesService {
   static async getArticles(): Promise<AxiosResponse<ArticleResponse[]>> {

@@ -1,6 +1,5 @@
-import { ArticleResponse } from "../models/response/ArticleResponse";
-import { IArticle } from "../models/IArticle";
 import { makeAutoObservable } from "mobx";
+import { ArticleResponse, IArticle } from "../types/index";
 import ArticlesService from "../services/article-services";
 
 export default class Store {
@@ -24,8 +23,8 @@ export default class Store {
     this.articles = article;
   }
 
-  setOneArticle(article: ArticleResponse) {
-    this.oneArticle = article;
+  setOneArticle( num : number) {
+    this.oneArticle.id = num;
   }
 
   setWrite(bool: boolean) {
