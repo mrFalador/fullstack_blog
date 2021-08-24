@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
 import {Iid} from "../types/index"
+import lang from "../languadges/languadge.json"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -13,32 +14,13 @@ const PostEdit: FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [language, setLang] = useState<'english' | 'germany' | 'bolgarian'>('english')
   const { store } = useContext(Context);
-  const articleID = store.articleID;
-  let English = true;
-  let German = false;
-  let Bulgarian = false;
   const { id }  = useParams<Iid>();
 
-  function setLang(str: string) {
-    switch (str) {
-      case "english":
-        English = true;
-        German = false;
-        Bulgarian = false;
-        break;
-      case "german":
-        English = false;
-        German = true;
-        Bulgarian = false;
-        break;
-      case "bulgarian":
-        English = false;
-        German = false;
-        Bulgarian = true;
-        break;
-    }
-  }
+  /*setLang() {
+    language : 
+  }*/
 
   function submitArticle(
     id : string,
@@ -62,45 +44,45 @@ const PostEdit: FC = () => {
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
               <button
-                onClick={() => setLang("german")}
-                className={English ? "nav-link active" : "nav-link"}
+                onClick={() => store.setLang("english")}
+                className={store.language == "english" ? "nav-link active" : "nav-link"}
                 id="home-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#home"
                 type="button"
                 role="tab"
                 aria-controls="home"
-                aria-selected={English ? "true" : "false"}
+                aria-selected={store.language == "english" ? "true" : "false"}
               >
                 English
               </button>
             </li>
             <li className="nav-item" role="presentation">
               <button
-                onClick={() => setLang("german")}
-                className={German ? "nav-link active" : "nav-link"}
+                onClick={() => store.setLang("germany")}
+                className={store.language == "germany" ? "nav-link active" : "nav-link"}
                 id="profile-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#profile"
                 type="button"
                 role="tab"
                 aria-controls="profile"
-                aria-selected={German ? "true" : "false"}
+                aria-selected={store.language == "germany" ? "true" : "false"}
               >
                 German
               </button>
             </li>
             <li className="nav-item" role="presentation">
               <button
-                onClick={() => setLang("german")}
-                className={Bulgarian ? "nav-link active" : "nav-link"}
+                onClick={() => store.setLang("bolgarian")}
+                className={store.language == "bolgarian" ? "nav-link active" : "nav-link"}
                 id="contact-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#contact"
                 type="button"
                 role="tab"
                 aria-controls="contact"
-                aria-selected={Bulgarian ? "true" : "false"}
+                aria-selected={store.language == "bolgarian" ? "true" : "false"}
               >
                 Bulgarian
               </button>

@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import  i18next  from 'i18next'
 import { ArticleResponse, IArticle } from "../types/index";
 import ArticlesService from "../services/article-services";
 
@@ -7,6 +8,7 @@ export default class Store {
   isWrite = false;
   isEdit = false;
   articleID = 0;
+  language = 'english'
   oneArticle = {
     id: 0,
     title: "Nan",
@@ -15,8 +17,15 @@ export default class Store {
   } as IArticle;
   seeArticle = false;
 
+  componentWillMount() {
+    this.setLang('english');
+  }
   constructor() {
     makeAutoObservable(this);
+  }
+
+  setLang (lang: string){
+    this.language = lang
   }
 
   setArticles(article: ArticleResponse) {

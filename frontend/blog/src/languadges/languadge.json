@@ -1,0 +1,21 @@
+{
+    "english": {
+      "translation": {
+        "article": "Article",
+        "submit": "Submit",
+        "header_article": "Article listing"
+      }
+    },
+    "germany": {
+      "translation": {
+        "article": "Mitglied",
+        "submit": "Abgeben",
+        "header_article": "Artikel auflistung"
+      }
+    },
+    "bolgarian": {
+      "translation": {
+        "header_article": "Списък на статиите"
+      }
+    }
+  }

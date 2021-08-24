@@ -7,7 +7,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
 import ArticlesService from "../services/article-services";
-import { ArticleResponse, IArticle, Iid } from "../types/index";
+import { IArticle, Iid } from "../types/index";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -16,7 +16,7 @@ import "../style.css";
 const Article: FC = () => {
   const { store } = useContext(Context);
   const [oneArticle, setOneArticle] = useState<IArticle>();
-  const { id } = useParams<Iid>(); //oneArticle?.id || 0;
+  const { id } = useParams<Iid>(); 
 
   async function getArticleOnId(id: number) {
     const response = await ArticlesService.getArticleOnID(id);
