@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import  i18next  from 'i18next'
 import { ArticleResponse, IArticle } from "../types/index";
 import ArticlesService from "../services/article-services";
 

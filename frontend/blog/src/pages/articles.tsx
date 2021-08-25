@@ -23,7 +23,7 @@ const Articles: FC = () => {
 
   useEffect(() => {
     getArticles();
-  });
+  }, []);
 
   return (
     <Container>
@@ -35,7 +35,7 @@ const Articles: FC = () => {
       <Row>
         <Col></Col>
         <Col>
-          <h1>{t("header_article")}</h1>
+          <h1>{t('header_article')}</h1>
         </Col>
         <Col></Col>
       </Row>

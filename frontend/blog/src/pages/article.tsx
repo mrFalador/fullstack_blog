@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next"
 import { Context } from "../index";
 import ArticlesService from "../services/article-services";
 import { IArticle, Iid } from "../types/index";
@@ -17,6 +18,7 @@ const Article: FC = () => {
   const { store } = useContext(Context);
   const [oneArticle, setOneArticle] = useState<IArticle>();
   const { id } = useParams<Iid>(); 
+  const { t } = useTranslation();
 
   async function getArticleOnId(id: number) {
     const response = await ArticlesService.getArticleOnID(id);
@@ -28,20 +30,20 @@ const Article: FC = () => {
   }
 
   async function getArticles() {
-    const response = await ArticlesService.getArticles();
+    await ArticlesService.getArticles();
   }
 
   useEffect(() => {
     getArticleOnId(Number(id));
-  });
+  }, [id]);
 
   return (
     <Container>
       <Row>
         <Col></Col>
         <Col>
-          <h1 className="center">Articles listing</h1>
-          <h5 className="center">Article Detalis</h5>
+          <h1 className="center">{t('header_article')}</h1>
+          <h5 className="center">{t('article_details')}</h5>
         </Col>
         <Col></Col>
       </Row>
@@ -62,17 +64,17 @@ const Article: FC = () => {
           <p />
           <Link to={`./${Number(id) - 1}`}>
             <Button variant="outline-info" size="sm">
-              PREV
+              {t('prev')}
             </Button>
           </Link>
           <Link to="/articles">
             <Button variant="outline-info" size="sm">
-              EXIT
+            {t('exit')}
             </Button>
           </Link>
           <Link to={`./${Number(id) + 1}`}>
             <Button variant="outline-info" size="sm">
-              NEXT
+            {t('next')}
             </Button>
           </Link>
         </Col>
@@ -80,7 +82,7 @@ const Article: FC = () => {
           <p />
           <Link to={`/edit/${Number(id)}`}>
             <Button variant="outline-info" size="sm">
-              Edit
+            {t('edit')}
             </Button>
           </Link>
           <Link to="/articles">
@@ -93,7 +95,7 @@ const Article: FC = () => {
                 store.seeOneArticle(false);
               }}
             >
-              Delete
+              {t('delete')}
             </Button>
           </Link>
         </Col>

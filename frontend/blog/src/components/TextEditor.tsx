@@ -2,9 +2,9 @@ import React, { FC, useState, useContext } from "react";
 import { Editor, OriginalTools } from "react-bootstrap-editor";
 import { Link, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next"
 import { Context } from "../index";
-import {Iid} from "../types/index"
-import lang from "../languadges/languadge.json"
+import { Iid } from "../types/index"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -14,13 +14,14 @@ const PostEdit: FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [language, setLang] = useState<'english' | 'germany' | 'bolgarian'>('english')
   const { store } = useContext(Context);
   const { id }  = useParams<Iid>();
+  const { t, i18n } = useTranslation();
 
-  /*setLang() {
-    language : 
-  }*/
+  function setLanguadge(str: string){
+    i18n.changeLanguage(str)
+    store.setLang(str)
+  }
 
   function submitArticle(
     id : string,
@@ -40,49 +41,49 @@ const PostEdit: FC = () => {
       <div className="row">
         <div className="col"></div>
         <div className="col-6">
-          <h1 className="center">Add Article</h1>
+          <h1 className="center">{t('add_article')}</h1>
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
               <button
-                onClick={() => store.setLang("english")}
-                className={store.language == "english" ? "nav-link active" : "nav-link"}
+                onClick={() => {setLanguadge("english")}}
+                className={store.language === "english" ? "nav-link active" : "nav-link"}
                 id="home-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#home"
                 type="button"
                 role="tab"
                 aria-controls="home"
-                aria-selected={store.language == "english" ? "true" : "false"}
+                aria-selected={store.language === "english" ? "true" : "false"}
               >
                 English
               </button>
             </li>
             <li className="nav-item" role="presentation">
               <button
-                onClick={() => store.setLang("germany")}
-                className={store.language == "germany" ? "nav-link active" : "nav-link"}
+                onClick={() => {setLanguadge("germany")}}
+                className={store.language === "germany" ? "nav-link active" : "nav-link"}
                 id="profile-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#profile"
                 type="button"
                 role="tab"
                 aria-controls="profile"
-                aria-selected={store.language == "germany" ? "true" : "false"}
+                aria-selected={store.language === "germany" ? "true" : "false"}
               >
                 German
               </button>
             </li>
             <li className="nav-item" role="presentation">
               <button
-                onClick={() => store.setLang("bolgarian")}
-                className={store.language == "bolgarian" ? "nav-link active" : "nav-link"}
+                onClick={() => {setLanguadge("bolgarian")}}
+                className={store.language === "bolgarian" ? "nav-link active" : "nav-link"}
                 id="contact-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#contact"
                 type="button"
                 role="tab"
                 aria-controls="contact"
-                aria-selected={store.language == "bolgarian" ? "true" : "false"}
+                aria-selected={store.language === "bolgarian" ? "true" : "false"}
               >
                 Bulgarian
               </button>
@@ -116,14 +117,14 @@ const PostEdit: FC = () => {
         <div className="col-6">
           <div className="input-group mb-3">
             <span className="input-group-text" id="basic-addon1">
-              Title
+              {t('title')}
             </span>
             <input
               onChange={(e) => setTitle(e.target.value)}
               value={title}
               type="text"
               className="form-control"
-              placeholder="Title"
+              placeholder={t("title")}
               aria-label=""
               aria-describedby="basic-addon1"
             />
@@ -142,7 +143,7 @@ const PostEdit: FC = () => {
               value=""
               id="flexCheckDefault"
             />
-            <label className="form-check-label">is Active</label>
+            <label className="form-check-label">{t('active')}</label>
           </div>
           <Link to = {`/article/${Number(id)}`}>
           <button
@@ -150,7 +151,7 @@ const PostEdit: FC = () => {
             type="button"
             className="btn btn-outline-dark"
           >
-            Submit
+            {t('submit')}
           </button>
           </Link>
           <Link to = "/articles">
@@ -161,7 +162,7 @@ const PostEdit: FC = () => {
             type="button"
             className="btn btn-outline-dark"
           >
-            Back
+            {t('back')}
           </button>
           </Link>
         </div>

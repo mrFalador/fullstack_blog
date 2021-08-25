@@ -2,6 +2,8 @@ import React, {useContext} from "react";
 import { Nav, Container, Col, Row } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Context } from "./index";
+import  i18next  from "i18next";
+import { useTranslation, initReactI18next } from "react-i18next"
 import Articles from "./pages/articles";
 import Archive from "./pages/archive";
 import Article from "./pages/article";
@@ -9,24 +11,27 @@ import PostEdit from "./components/TextEditor";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
-import { store } from ".";
-import  i18next  from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
 
+
+i18next
+.use(initReactI18next)
+.init({
+  resources: require(`./languadges/languadge.json`),
+  lng: "english", // if you're using a language detector, do not define the lng option
+  fallbackLng: "english",
+  interpolation: {
+    escapeValue: false
+  }
+});
 
 export default function App() {
   const { store } = useContext(Context);
 
-  i18next
-  .use(initReactI18next)
-  .init({
-    resources: require(`./languadges/languadge.json`),
-    lng: store.language,
-    fallbackLng: store.language,
-    interpolation: {
-      escapeValue: false
-    }
-  });
+function setLanguadge(str: string){
+  i18n.changeLanguage(str)
+  store.setLang(str)
+}
+
 
   const { t, i18n } = useTranslation();
   return (
@@ -43,23 +48,23 @@ export default function App() {
           </Nav.Item>
           <Nav.Item as="li">
             <Nav.Link>
-              <Link to="/archive">Archive</Link>
+              <Link to="/archive">{t('archive')}</Link>
             </Nav.Link>
           </Nav.Item>
           <Nav.Item as="li">
             <Nav.Link>
-              <Link to="/add">Add</Link>
+              <Link to="/add">{t('add')}</Link>
             </Nav.Link>
           </Nav.Item>
         </Nav>
         </Col>
         <Col></Col>
         <Col>
-          <select>
+          <select onChange = {(event) => setLanguadge(event.target.value)}>
             <option disabled>Change language</option>
-            <option onClick = {() => {i18n.changeLanguage("english"); store.setLang("english")}}>English</option>
-            <option onClick = {() => {i18n.changeLanguage("germany"); store.setLang("germany")}}>Germany</option>
-            <option onClick = {() => {i18n.changeLanguage("bolgarian"); store.setLang("bolgarian")}}>Bolgarian</option>
+            <option value = "english">English</option>
+            <option value = "germany">Germany</option>
+            <option value = "bolgarian">Bolgarian</option>
           </select>
         </Col>
         </Row>

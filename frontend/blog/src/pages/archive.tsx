@@ -2,9 +2,10 @@ import React, { FC, useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next"
 import { Context } from "../index";
 import ArticlesService from "../services/article-services";
-import { ArticleResponse, IArticle } from "../types/index";
+import { ArticleResponse } from "../types/index";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -13,7 +14,7 @@ import "../style.css";
 const Archive: FC = () => {
   const { store } = useContext(Context);
   const [articles, setArticles] = useState<ArticleResponse[]>([]);
-  const [oneArticle, setOneArticle] = useState<IArticle>();
+  const { t } = useTranslation();
 
   async function getArchive() {
     const response = await ArticlesService.getArchive();
@@ -22,7 +23,7 @@ const Archive: FC = () => {
 
   useEffect(() => {
     getArchive();
-  });
+  }, []);
 
   return (
     <Container>
@@ -34,7 +35,7 @@ const Archive: FC = () => {
       <Row>
         <Col></Col>
         <Col>
-          <h1>Articles listing</h1>
+          <h1>{t('header_article')}</h1>
         </Col>
         <Col></Col>
       </Row>

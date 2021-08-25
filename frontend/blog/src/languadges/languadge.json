@@ -2,20 +2,58 @@
     "english": {
       "translation": {
         "article": "Article",
+        "archive": "Archive",
+        "add": "Add",
+        "header_article": "Article listing",
+        "article_details": "Artikel Details",
+        "prev": "PREV",
+        "exit": "EXIT",
+        "next": "NEXT",
+        "edit": "EDIT",
+        "delete": "DELETE",
+        "add_article": "Add Article",
+        "title": "Title",
+        "active": "Is Active",
         "submit": "Submit",
-        "header_article": "Article listing"
+        "back": "Back"
       }
     },
     "germany": {
       "translation": {
         "article": "Mitglied",
+        "archive": "Archiv",
+        "add": "Hinzufügen",   
+        "header_article": "Artikel auflistung",
+        "article_details": "Article Details",
+        "prev": "PREV",
+        "exit": "EXIT",
+        "next": "NEXT",
+        "edit": "EDIT",
+        "delete": "LÖSCHEN",
+        "add_article": "Artikel hinzufügen",
+        "title": "Titelleiste",
+        "active": "Ist aktiv",
         "submit": "Abgeben",
-        "header_article": "Artikel auflistung"
+        "back": "Zurück"
       }
     },
     "bolgarian": {
       "translation": {
-        "header_article": "Списък на статиите"
+        "article": "Запис",
+        "archive": "Архив",
+        "add": "Добавя",
+        "header_article": "Списък на статиите",
+        "article_details": "информация за статията",
+        "prev": "ПРЕДИШЕН",
+        "exit": "ИЗХОД",
+        "next": "СЛЕДНИЯ",
+        "edit": "РЕДАКТ",
+        "delete": "ПРЕМАХНА",
+        "add_article": "Добавяне на статия",
+        "title": "Заглавие",
+        "active": "Активен",
+        "submit": "Представя",
+        "back": "Назад"
       }
     }
   }
